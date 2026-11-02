@@ -38,10 +38,7 @@ struct SettingsView: View {
     }
 
     private func setOpenAtLogin(_ on: Bool) {
-        guard on != LoginItem.isEnabled else {
-            loginError = nil
-            return
-        }
+        guard on != LoginItem.isEnabled else { return }
         do {
             try LoginItem.setEnabled(on)
             loginError = nil

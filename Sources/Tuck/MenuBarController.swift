@@ -6,7 +6,7 @@ final class MenuBarController: NSObject {
     private let openSettings: () -> Void
     private let toggleItem: NSStatusItem
     private let hiddenDivider: NSStatusItem
-    private var alwaysDivider: NSStatusItem?
+    private let alwaysDivider: NSStatusItem
     private var autoHideTimer: Timer?
     private var subscriptions = Set<AnyCancellable>()
 
@@ -21,6 +21,8 @@ final class MenuBarController: NSObject {
         toggleItem.autosaveName = "tuck.toggle"
         hiddenDivider = NSStatusBar.system.statusItem(withLength: DividerLength.collapsed)
         hiddenDivider.autosaveName = "tuck.hidden"
+        alwaysDivider = NSStatusBar.system.statusItem(withLength: DividerLength.collapsed)
+        alwaysDivider.autosaveName = "tuck.always"
         super.init()
 
         if let button = toggleItem.button {
@@ -29,13 +31,13 @@ final class MenuBarController: NSObject {
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
             button.setAccessibilityLabel("Tuck")
         }
-        setAlwaysDividerPresent(preferences.alwaysHiddenEnabled)
+        alwaysDivider.isVisible = preferences.alwaysHiddenEnabled
 
         preferences.$alwaysHiddenEnabled
             .dropFirst()
             .sink { [weak self] enabled in
                 guard let self else { return }
-                self.setAlwaysDividerPresent(enabled)
+                self.alwaysDivider.isVisible = enabled
                 self.state = self.state.normalized(alwaysHiddenEnabled: enabled)
             }
             .store(in: &subscriptions)
@@ -70,23 +72,10 @@ final class MenuBarController: NSObject {
         openSettings()
     }
 
-    private func setAlwaysDividerPresent(_ present: Bool) {
-        if present, alwaysDivider == nil {
-            let item = NSStatusBar.system.statusItem(withLength: DividerLength.collapsed)
-            item.autosaveName = "tuck.always"
-            alwaysDivider = item
-        } else if !present, let item = alwaysDivider {
-            NSStatusBar.system.removeStatusItem(item)
-            alwaysDivider = nil
-        }
-    }
-
     private func apply() {
         toggleItem.button?.image = symbol(state == .hidden ? "chevron.compact.left" : "chevron.compact.right", label: "Tuck")
         style(divider: hiddenDivider, expanded: state.hiddenDividerExpanded)
-        if let alwaysDivider {
-            style(divider: alwaysDivider, expanded: state.alwaysDividerExpanded)
-        }
+        style(divider: alwaysDivider, expanded: state.alwaysDividerExpanded)
         scheduleAutoHide()
     }
 
