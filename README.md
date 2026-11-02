@@ -1,71 +1,133 @@
+<div align="center">
+
 # Tuck
 
-A free, open-source macOS menu bar app that tucks menu bar items out of sight.
+**Tuck menu bar items out of sight. Free and open source.**
 
-Tuck is an independent project. It is not affiliated with any commercial menu bar manager.
+[![Latest release](https://img.shields.io/github/v/release/din-mukhammed/tuck?label=release)](https://github.com/din-mukhammed/tuck/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/din-mukhammed/tuck/total)](https://github.com/din-mukhammed/tuck/releases)
+[![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue)](#requirements)
+[![Licence: MIT](https://img.shields.io/github/license/din-mukhammed/tuck)](LICENSE)
+
+[Install](#install) · [Usage](#usage) · [FAQ](#faq) · [Build from source](#build-from-source)
+
+</div>
+
+---
+
+Tuck is a tiny native menu bar manager for macOS. It hides the icons you rarely need behind a single chevron, so your menu bar stays clean and fewer icons disappear behind the notch.
+
+Tuck is an independent project and is not affiliated with any commercial menu bar manager.
+
+## Features
+
+- **One click to hide or show** everything you've tucked away.
+- **Always-hidden section** for icons you almost never need, revealed with ⌥-click.
+- **Auto-hide**: items tuck themselves away again after a delay you choose. The timer waits while your pointer is in the menu bar.
+- **Launch at login.**
+- **No permissions**: no Accessibility, no Screen Recording.
+- **Native and small**: Swift and AppKit, about 70 KB zipped, universal for Apple silicon and Intel.
 
 ## Install
 
-With Homebrew:
+### Homebrew
 
 ```bash
 brew tap din-mukhammed/tuck https://github.com/din-mukhammed/tuck
 brew install --cask tuck
 ```
 
-Or download `Tuck-<version>.zip` from [Releases](https://github.com/din-mukhammed/tuck/releases), unzip it and move `Tuck.app` to Applications.
+### Manual
 
-Tuck is not notarized by Apple yet, so the first launch shows "Apple could not verify Tuck…". Click **Done**, open **System Settings → Privacy & Security**, and click **Open Anyway** next to the Tuck message. Or, in Terminal:
+Download `Tuck-<version>.zip` from the [latest release](https://github.com/din-mukhammed/tuck/releases/latest), unzip it and move `Tuck.app` to Applications.
+
+### First launch
+
+Tuck is not notarized by Apple yet, so macOS says it "could not verify Tuck". Click **Done**, open **System Settings → Privacy & Security** and click **Open Anyway** next to the Tuck message. Or run:
 
 ```bash
 xattr -dr com.apple.quarantine /Applications/Tuck.app
 ```
 
-Universal (Apple silicon and Intel), macOS 13 or later.
+### Requirements
 
-## Use
+macOS 13 Ventura or later, Apple silicon or Intel.
 
-Tuck adds a chevron to your menu bar and two faint `|` dividers to its left.
+## Usage
 
-- Hold ⌘ and drag menu bar items left of the first `|` to hide them.
-- Drag items left of the second `|` to keep them hidden even when Tuck is open.
-- **Click** the chevron to show or hide the hidden items.
-- **⌥-click** to also show the always-hidden items.
-- **Right-click** for Settings and Quit.
+Tuck adds a chevron and two faint `|` dividers to your menu bar. Arrange your icons by holding **⌘** and dragging them:
 
-Settings: hide again automatically after N seconds (on by default, 10 s), turn the always-hidden section on or off, open at login.
+```
+ always hidden  |  hidden  |  ‹  always visible
+```
 
-No Accessibility or Screen Recording permission is needed. Tuck widens its dividers so the items to their left move off screen.
+| Action | Result |
+| --- | --- |
+| Click the chevron | Show or hide the hidden section |
+| ⌥-click the chevron | Also show the always-hidden section |
+| Right-click the chevron | Settings… and Quit |
 
-## Build
+The dividers are only visible while items are shown. Icons placed between the first `|` and the chevron stay visible all the time.
 
-Needs only the Xcode Command Line Tools (Swift 6.1); no Xcode, no Swift Package Manager.
+### Settings
+
+| Setting | Default |
+| --- | --- |
+| Hide items again automatically | On, after 10 s (2–60 s) |
+| Always-hidden section | On |
+| Open at login | Off |
+
+## FAQ
+
+**How does Tuck hide icons without any permissions?**
+Each divider is itself a menu bar item. To hide, Tuck stretches a divider very wide, which pushes every icon to its left off the edge of the screen. To show, it shrinks the divider back to a thin line.
+
+**Where did my icon go?**
+Click the chevron (or ⌥-click it) and drag the icon back to the right of the first `|`.
+
+**Does it work with the notch and multiple displays?**
+Yes. macOS mirrors the menu bar on every display, and Tuck's dividers hide items on each of them.
+
+**How do I uninstall it?**
+Quit Tuck from its right-click menu, then delete `Tuck.app`. With Homebrew: `brew uninstall --zap --cask tuck`.
+
+## Build from source
+
+Only the Xcode Command Line Tools are needed (Swift 6.1). No Xcode and no Swift Package Manager.
 
 ```bash
+git clone https://github.com/din-mukhammed/tuck.git && cd tuck
 scripts/test.sh             # unit tests
 scripts/build-app.sh        # builds a universal dist/Tuck.app
 scripts/build-app.sh --run  # also installs it to ~/Applications and opens it
 ```
 
-### Release
+<details>
+<summary>Notes for maintainers</summary>
 
-`scripts/release.sh` tests, builds, zips `dist/Tuck-<version>.zip`, publishes a GitHub release tagged `v<version>` (the version comes from `Resources/Info.plist`) and updates the version and checksum in `Casks/tuck.rb`. Bump `CFBundleShortVersionString` and commit before running it.
+**Releasing.** Bump `CFBundleShortVersionString` in `Resources/Info.plist`, commit, then run `scripts/release.sh`. It tests, builds, zips `dist/Tuck-<version>.zip`, publishes the GitHub release `v<version>` and updates the version and checksum in `Casks/tuck.rb`.
 
-With an Apple Developer ID it signs and notarizes too. Store notary credentials once, then pass both variables:
+**Notarizing.** With an Apple Developer ID, store notary credentials once and pass both variables:
 
 ```bash
 xcrun notarytool store-credentials tuck-notary --apple-id you@example.com --team-id TEAMID
 TUCK_SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" TUCK_NOTARY_PROFILE=tuck-notary scripts/release.sh
 ```
 
-Some Command Line Tools installs keep a stale `usr/include/swift/module.modulemap` that breaks every Foundation import. `scripts/env.sh` detects it and hides it from the compiler with a VFS overlay; nothing on the system changes.
+**Broken Command Line Tools.** Some installs keep a stale `usr/include/swift/module.modulemap` that breaks every Foundation import. `scripts/env.sh` detects it and hides it from the compiler with a VFS overlay; nothing on the system changes.
 
-`scripts/status-items.swift` prints the position of every menu bar item window, which is how hiding is checked without Screen Recording permission:
+**Checking what is hidden.** `scripts/status-items.swift` prints the position of every menu bar item, which shows what is off screen without Screen Recording permission:
 
 ```bash
 source scripts/env.sh && swiftc "${SWIFTC_FLAGS[@]}" scripts/status-items.swift -o .build/status-items && .build/status-items
 ```
 
+</details>
+
+## Contributing
+
+Issues and pull requests are welcome. Please run `scripts/test.sh` before sending a change.
+
 ## Licence
 
-MIT
+[MIT](LICENSE) © 2026 Din
