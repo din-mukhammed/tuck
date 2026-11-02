@@ -7,7 +7,7 @@ cask "tuck" do
   desc "Hide menu bar items behind a toggle"
   homepage "https://github.com/din-mukhammed/tuck"
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "Tuck.app"
 
