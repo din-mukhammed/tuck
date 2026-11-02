@@ -28,7 +28,8 @@ The status-item length trick (the technique Hidden Bar and Ice also use; written
 visible items │ Tuck icon │ | hidden-divider  hidden items │ | always-divider  always-hidden items
 ```
 
-- The hidden-divider has no glyph and, while shown, the smallest length macOS allows (it renders about 16 pt wide), so only one `|` is ever visible: `always hidden | hidden ‹ visible`.
+- Only one `|` is ever visible: `always hidden | hidden ‹ visible`. The hidden-divider has no glyph; while its section is shown it is taken out of the menu bar (`isVisible = false`, because macOS will not draw an item narrower than 16 pt), and before each hide its saved position (`NSStatusItem Preferred Position tuck.hidden`) is set just past the toggle's so it comes back directly left of the chevron.
+- macOS saves a stretched item's position as a huge distance, which would put the always-divider far left on the next launch. Tuck remembers the always-divider's position while it is collapsed (⌥-click state, read again when leaving it) under `tuck.collapsedAlwaysPosition` and writes it back before the divider is created or re-enabled.
 - The always-divider's length is either **collapsed** (a thin `|` mark, ~8 pt, visible while that section is shown) or **expanded** (10,000 pt). An expanded divider pushes every item to its left off screen.
 - Items are moved between sections by ⌘-dragging, a macOS feature. Each status item has an `autosaveName`, so macOS keeps their positions across launches.
 - No Accessibility or Screen Recording permission is needed.

@@ -11,7 +11,10 @@ final class MenuBarController: NSObject {
     private var subscriptions = Set<AnyCancellable>()
 
     private var state: VisibilityState = .hidden {
-        didSet { apply() }
+        didSet {
+            if oldValue == .allShown { Self.rememberAlwaysDividerPosition() }
+            apply()
+        }
     }
 
     init(preferences: Preferences, openSettings: @escaping () -> Void) {
@@ -19,6 +22,8 @@ final class MenuBarController: NSObject {
         self.openSettings = openSettings
         toggleItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         toggleItem.autosaveName = "tuck.toggle"
+        Self.pinHiddenDividerToToggle()
+        Self.restoreAlwaysDividerPosition()
         hiddenDivider = NSStatusBar.system.statusItem(withLength: DividerLength.collapsed)
         hiddenDivider.autosaveName = "tuck.hidden"
         alwaysDivider = NSStatusBar.system.statusItem(withLength: DividerLength.collapsed)
@@ -37,6 +42,7 @@ final class MenuBarController: NSObject {
             .dropFirst()
             .sink { [weak self] enabled in
                 guard let self else { return }
+                if enabled { Self.restoreAlwaysDividerPosition() }
                 self.alwaysDivider.isVisible = enabled
                 self.state = self.state.normalized(alwaysHiddenEnabled: enabled)
             }
@@ -74,9 +80,39 @@ final class MenuBarController: NSObject {
 
     private func apply() {
         toggleItem.button?.image = symbol(state == .hidden ? "chevron.compact.left" : "chevron.compact.right", label: "Tuck")
-        hiddenDivider.length = state.hiddenDividerExpanded ? DividerLength.expanded : DividerLength.seam
+        if state.hiddenDividerExpanded {
+            Self.pinHiddenDividerToToggle()
+            hiddenDivider.length = DividerLength.expanded
+            hiddenDivider.isVisible = true
+        } else {
+            hiddenDivider.isVisible = false
+        }
         style(divider: alwaysDivider, expanded: state.alwaysDividerExpanded)
+        if state == .allShown {
+            DispatchQueue.main.async { Self.rememberAlwaysDividerPosition() }
+        }
         scheduleAutoHide()
+    }
+
+    private static func pinHiddenDividerToToggle() {
+        let defaults = UserDefaults.standard
+        let toggle = defaults.double(forKey: StatusItemDefaults.position(of: "tuck.toggle"))
+        guard toggle > 0 else { return }
+        defaults.set(toggle + 1, forKey: StatusItemDefaults.position(of: "tuck.hidden"))
+    }
+
+    private static func rememberAlwaysDividerPosition() {
+        let defaults = UserDefaults.standard
+        let position = defaults.double(forKey: StatusItemDefaults.position(of: "tuck.always"))
+        guard position > 0 else { return }
+        defaults.set(position, forKey: StatusItemDefaults.collapsedAlwaysPosition)
+    }
+
+    private static func restoreAlwaysDividerPosition() {
+        let defaults = UserDefaults.standard
+        let position = defaults.double(forKey: StatusItemDefaults.collapsedAlwaysPosition)
+        guard position > 0 else { return }
+        defaults.set(position, forKey: StatusItemDefaults.position(of: "tuck.always"))
     }
 
     private func style(divider: NSStatusItem, expanded: Bool) {

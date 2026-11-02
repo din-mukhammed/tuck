@@ -3,7 +3,14 @@ import Foundation
 enum DividerLength {
     static let expanded: CGFloat = 10_000
     static let collapsed: CGFloat = 8
-    static let seam: CGFloat = 0
+}
+
+enum StatusItemDefaults {
+    static func position(of autosaveName: String) -> String {
+        "NSStatusItem Preferred Position \(autosaveName)"
+    }
+
+    static let collapsedAlwaysPosition = "tuck.collapsedAlwaysPosition"
 }
 
 enum VisibilityState: Equatable {
