@@ -11,7 +11,7 @@
 
 [Install](#install) · [Usage](#usage) · [FAQ](#faq) · [Build from source](#build-from-source)
 
-<img src="docs/media/tuck-demo.gif" width="500" alt="Maccy is ⌘-dragged into the hidden section and Raycast into the always-hidden section; a click reveals only Maccy, ⌥-click reveals both">
+<img src="docs/media/tuck-demo-v2.gif" width="500" alt="Maccy is ⌘-dragged into the hidden section and Raycast into the always-hidden section; a click reveals only Maccy, ⌥-click reveals both">
 
 <sub>⌘-drag an icon past the first divider to hide it, or past the second (shown with ⌥-click) to keep it always hidden.<br>Click shows the hidden section; ⌥-click shows the always-hidden one too.</sub>
 
