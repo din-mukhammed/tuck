@@ -1,7 +1,8 @@
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 mkdir -p "$ROOT/.build"
 
-SWIFTC_FLAGS=(-target arm64-apple-macos13.0 -swift-version 5)
+DEPLOYMENT_TARGET=macos13.0
+SWIFTC_FLAGS=(-swift-version 5)
 
 CLT_SWIFT_INCLUDE=/Library/Developer/CommandLineTools/usr/include/swift
 if [[ -f "$CLT_SWIFT_INCLUDE/module.modulemap" && -f "$CLT_SWIFT_INCLUDE/bridging.modulemap" ]]; then
