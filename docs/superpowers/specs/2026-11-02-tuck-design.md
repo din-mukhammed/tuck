@@ -61,8 +61,10 @@ The auto-hide timer starts on every entry into `shown` / `allShown`, is cancelle
 
 ## Build and distribution
 
-- Swift Package, `macOS(.v13)`, an executable target `Tuck`, a library target `TuckCore` (state + preferences logic) and a test target using Swift Testing.
-- `scripts/build-app.sh`: `swift build -c release`, assembles `Tuck.app` (Info.plist with `LSUIElement`, bundle id `dev.tuck.Tuck`), ad-hoc `codesign`, copies it to `~/Applications`.
+- No SwiftPM and no Xcode: this Mac's Command Line Tools 16.4 has a mismatched `libPackageDescription` (no manifest links) and a stale 2023 `usr/include/swift/module.modulemap` that redefines `SwiftBridging` and breaks every Foundation/AppKit import. Builds call `swiftc` directly from scripts, which hide that stale file with a VFS overlay when it is present (no system change).
+- Sources: `Sources/TuckCore` (state, auto-hide, preferences; no AppKit) and `Sources/Tuck` (the app). Target `arm64-apple-macos13.0`.
+- Tests: `scripts/test.sh` compiles `Sources/TuckCore` with `Tests/` into a plain executable with a small `expect` helper (Swift Testing does not link standalone here) and exits non-zero on any failure.
+- `scripts/build-app.sh`: compiles release with `-O`, assembles `Tuck.app` (Info.plist with `LSUIElement`, bundle id `dev.tuck.Tuck`), ad-hoc `codesign`, copies it to `~/Applications`.
 - MIT licence, README with build steps. A GitHub repo and a Homebrew cask are later.
 
 ## Errors and edge cases
@@ -72,5 +74,5 @@ The auto-hide timer starts on every entry into `shown` / `allShown`, is cancelle
 
 ## Testing
 
-- `swift test`: every `VisibilityState` transition and the auto-hide decision (fire vs re-arm).
+- `scripts/test.sh`: every `VisibilityState` transition and the auto-hide decision (fire vs re-arm).
 - Manual on the author's Mac: build, launch, ⌘-drag an item left of the divider, then before/after `screencapture` of the menu bar for click, ⌥-click and auto-hide.
