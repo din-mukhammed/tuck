@@ -11,7 +11,7 @@
 
 [Install](#install) · [Usage](#usage) · [FAQ](#faq) · [Build from source](#build-from-source)
 
-<img src="docs/media/tuck-demo.webp" width="500" alt="Maccy is ⌘-dragged into the hidden section and Raycast into the always-hidden section; a click reveals only Maccy, ⌥-click reveals both">
+<img src="docs/media/tuck-demo.webp" width="500" alt="Three icons are ⌘-dragged next to the Tuck chevron and hide on the next click; two more are dragged past the | divider into the always-hidden section, which only ⌥-click reveals">
 
 <sub>⌘-drag an icon left of the chevron to hide it, or past the `|` (shown with ⌥-click) to keep it always hidden.<br>Click shows the hidden section; ⌥-click shows the always-hidden one too.</sub>
 
