@@ -9,7 +9,8 @@ Tuck is an independent project. It is not affiliated with any commercial menu ba
 With Homebrew:
 
 ```bash
-brew install --cask din-mukhammed/tuck/tuck
+brew tap din-mukhammed/tuck https://github.com/din-mukhammed/tuck
+brew install --cask tuck
 ```
 
 Or download `Tuck-<version>.zip` from [Releases](https://github.com/din-mukhammed/tuck/releases), unzip it and move `Tuck.app` to Applications.
@@ -48,7 +49,7 @@ scripts/build-app.sh --run  # also installs it to ~/Applications and opens it
 
 ### Release
 
-`scripts/release.sh` tests, builds, zips `dist/Tuck-<version>.zip`, publishes a GitHub release tagged `v<version>` (the version comes from `Resources/Info.plist`) and updates the cask in [din-mukhammed/homebrew-tuck](https://github.com/din-mukhammed/homebrew-tuck). Bump `CFBundleShortVersionString` and commit before running it.
+`scripts/release.sh` tests, builds, zips `dist/Tuck-<version>.zip`, publishes a GitHub release tagged `v<version>` (the version comes from `Resources/Info.plist`) and updates the version and checksum in `Casks/tuck.rb`. Bump `CFBundleShortVersionString` and commit before running it.
 
 With an Apple Developer ID it signs and notarizes too. Store notary credentials once, then pass both variables:
 

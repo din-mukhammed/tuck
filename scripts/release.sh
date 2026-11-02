@@ -4,7 +4,6 @@ source "$(dirname "$0")/env.sh"
 cd "$ROOT"
 
 REPO=din-mukhammed/tuck
-TAP=din-mukhammed/homebrew-tuck
 VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" Resources/Info.plist)
 TAG="v$VERSION"
 ZIP="dist/Tuck-$VERSION.zip"
@@ -38,10 +37,7 @@ git push origin HEAD
 gh release create "$TAG" "$ZIP" --repo "$REPO" --target "$(git rev-parse HEAD)" \
   --title "Tuck $VERSION" --notes "$NOTES"
 
-TAP_DIR=.build/tap
-rm -rf "$TAP_DIR"
-gh repo clone "$TAP" "$TAP_DIR" -- --quiet
-sed -i '' -e "s/^  version \".*\"/  version \"$VERSION\"/" -e "s/^  sha256 \".*\"/  sha256 \"$SHA\"/" "$TAP_DIR/Casks/tuck.rb"
-git -C "$TAP_DIR" commit -qam "tuck $VERSION"
-git -C "$TAP_DIR" push -q
-echo "Released $TAG ($SHA) and updated $TAP"
+sed -i '' -e "s/^  version \".*\"/  version \"$VERSION\"/" -e "s/^  sha256 \".*\"/  sha256 \"$SHA\"/" Casks/tuck.rb
+git commit -qm "Cask: tuck $VERSION" Casks/tuck.rb
+git push -q origin HEAD
+echo "Released $TAG ($SHA) and updated Casks/tuck.rb"
