@@ -13,7 +13,7 @@
 
 <img src="docs/media/tuck-demo.webp" width="500" alt="Maccy is ⌘-dragged into the hidden section and Raycast into the always-hidden section; a click reveals only Maccy, ⌥-click reveals both">
 
-<sub>⌘-drag an icon past the first divider to hide it, or past the second (shown with ⌥-click) to keep it always hidden.<br>Click shows the hidden section; ⌥-click shows the always-hidden one too.</sub>
+<sub>⌘-drag an icon left of the chevron to hide it, or past the `|` (shown with ⌥-click) to keep it always hidden.<br>Click shows the hidden section; ⌥-click shows the always-hidden one too.</sub>
 
 </div>
 
@@ -59,19 +59,19 @@ macOS 13 Ventura or later, Apple silicon or Intel.
 
 ## Usage
 
-Tuck splits your menu bar into three sections, separated by two `|` dividers:
+Tuck splits your menu bar into three sections around its chevron and one `|` divider:
 
 ```
- always hidden  |  hidden  |  ‹  always visible
+ always hidden  |  hidden  ‹  always visible
 ```
 
-- **Always visible**: icons you use all the time, right of the first `|`.
+- **Always visible**: icons you use all the time, right of the chevron.
 - **Hidden**: icons you check now and then. A click shows them, and they tuck away again after a few seconds.
 - **Always hidden**: icons you almost never need but can't quit. A normal click leaves them out, so they don't clutter the bar each time you open the hidden section; ⌥-click shows them too.
 
-Arrange icons by holding **⌘** and dragging them across the dividers. The dividers are faint and appear only while their section is open: click the chevron to see the first one, ⌥-click to see both.
+Arrange icons by holding **⌘** and dragging them: left of the chevron to hide them, left of the `|` to always hide them. The `|` is faint and appears only when you ⌥-click.
 
-Only need one hidden section? Turn off **Always-hidden section** in Settings and the second divider goes away.
+Only need one hidden section? Turn off **Always-hidden section** in Settings and the `|` goes away.
 
 | Action | Result |
 | --- | --- |
@@ -79,7 +79,6 @@ Only need one hidden section? Turn off **Always-hidden section** in Settings and
 | ⌥-click the chevron | Also show the always-hidden section |
 | Right-click the chevron | Settings… and Quit |
 
-Icons placed between the first `|` and the chevron stay visible too.
 
 ### Settings
 
@@ -92,13 +91,13 @@ Icons placed between the first `|` and the chevron stay visible too.
 ## FAQ
 
 **How does Tuck hide icons without any permissions?**
-Each divider is itself a menu bar item. To hide, Tuck stretches a divider very wide, which pushes every icon to its left off the edge of the screen. To show, it shrinks the divider back to a thin line.
+Tuck owns two invisible spacer items, one right next to the chevron and one at the `|`. To hide, it stretches a spacer very wide, which pushes every icon to its left off the edge of the screen. To show, it shrinks the spacer back.
 
 **Where did my icon go?**
-Click the chevron (or ⌥-click it) and drag the icon back to the right of the first `|`.
+Click the chevron (or ⌥-click it) and drag the icon back to the right of the chevron.
 
 **Does it work with the notch and multiple displays?**
-Yes. macOS mirrors the menu bar on every display, and Tuck's dividers hide items on each of them.
+Yes. macOS mirrors the menu bar on every display, and Tuck hides items on each of them.
 
 **How do I uninstall it?**
 Quit Tuck from its right-click menu, then delete `Tuck.app`. With Homebrew: `brew uninstall --zap --cask tuck`.

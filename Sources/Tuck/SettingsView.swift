@@ -27,7 +27,7 @@ struct SettingsView: View {
                 }
             }
             Section {
-                Text("Hold ⌘ and drag menu bar items left of the | divider to hide them. Items left of the second | stay hidden until you ⌥-click Tuck.")
+                Text("Hold ⌘ and drag menu bar items left of the Tuck chevron to hide them. Items left of the | divider stay hidden until you ⌥-click Tuck.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)

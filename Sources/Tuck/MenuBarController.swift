@@ -74,7 +74,7 @@ final class MenuBarController: NSObject {
 
     private func apply() {
         toggleItem.button?.image = symbol(state == .hidden ? "chevron.compact.left" : "chevron.compact.right", label: "Tuck")
-        style(divider: hiddenDivider, expanded: state.hiddenDividerExpanded)
+        hiddenDivider.length = state.hiddenDividerExpanded ? DividerLength.expanded : DividerLength.seam
         style(divider: alwaysDivider, expanded: state.alwaysDividerExpanded)
         scheduleAutoHide()
     }

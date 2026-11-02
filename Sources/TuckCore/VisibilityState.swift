@@ -3,6 +3,7 @@ import Foundation
 enum DividerLength {
     static let expanded: CGFloat = 10_000
     static let collapsed: CGFloat = 8
+    static let seam: CGFloat = 0
 }
 
 enum VisibilityState: Equatable {
