@@ -25,10 +25,10 @@ Out of v1: a secondary bar, an item list with icons, rules, search, hover reveal
 The status-item length trick (the technique Hidden Bar and Ice also use; written from scratch here, no code copied). Tuck owns three `NSStatusItem`s, right to left:
 
 ```
-visible items │ Tuck icon │ ⋮ hidden-divider  hidden items │ ⋮ always-divider  always-hidden items
+visible items │ Tuck icon │ | hidden-divider  hidden items │ | always-divider  always-hidden items
 ```
 
-- A divider's length is either **collapsed** (a thin `⋮` mark, ~8 pt, visible while that section is shown) or **expanded** (10,000 pt). An expanded divider pushes every item to its left off screen.
+- A divider's length is either **collapsed** (a thin `|` mark, ~8 pt, visible while that section is shown) or **expanded** (10,000 pt). An expanded divider pushes every item to its left off screen.
 - Items are moved between sections by ⌘-dragging, a macOS feature. Each status item has an `autosaveName`, so macOS keeps their positions across launches.
 - No Accessibility or Screen Recording permission is needed.
 

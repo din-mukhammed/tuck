@@ -25,10 +25,10 @@ Universal (Apple silicon and Intel), macOS 13 or later.
 
 ## Use
 
-Tuck adds a chevron to your menu bar and two faint ⋮ dividers to its left.
+Tuck adds a chevron to your menu bar and two faint `|` dividers to its left.
 
-- Hold ⌘ and drag menu bar items left of the first ⋮ to hide them.
-- Drag items left of the second ⋮ to keep them hidden even when Tuck is open.
+- Hold ⌘ and drag menu bar items left of the first `|` to hide them.
+- Drag items left of the second `|` to keep them hidden even when Tuck is open.
 - **Click** the chevron to show or hide the hidden items.
 - **⌥-click** to also show the always-hidden items.
 - **Right-click** for Settings and Quit.
