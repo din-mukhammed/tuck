@@ -11,9 +11,9 @@
 
 [Install](#install) · [Usage](#usage) · [FAQ](#faq) · [Build from source](#build-from-source)
 
-<img src="docs/media/tuck-demo.gif" width="470" alt="Clicking the Tuck chevron shows and hides menu bar icons; ⌥-click also reveals the always-hidden section">
+<img src="docs/media/tuck-demo.gif" width="470" alt="An icon is ⌘-dragged left of Tuck's divider and disappears on the next click; ⌥-click also reveals the always-hidden section">
 
-<sub>Click to show, click to hide, ⌥-click to reveal the always-hidden section too.</sub>
+<sub>⌘-drag an icon left of the divider to tuck it. Click to show or hide, ⌥-click to reveal the always-hidden section too.</sub>
 
 </div>
 
