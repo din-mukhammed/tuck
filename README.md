@@ -55,7 +55,7 @@ macOS 13 Ventura or later, Apple silicon or Intel.
 
 ## Usage
 
-Tuck adds a chevron and two faint `|` dividers to your menu bar. Arrange your icons by holding **⌘** and dragging them:
+Tuck adds a chevron and two faint `|` dividers to your menu bar. Click the chevron and the first divider appears; ⌥-click and the second one appears too. Arrange your icons by holding **⌘** and dragging them across the dividers:
 
 ```
  always hidden  |  hidden  |  ‹  always visible
@@ -67,7 +67,7 @@ Tuck adds a chevron and two faint `|` dividers to your menu bar. Arrange your ic
 | ⌥-click the chevron | Also show the always-hidden section |
 | Right-click the chevron | Settings… and Quit |
 
-The dividers are only visible while items are shown. Icons placed between the first `|` and the chevron stay visible all the time.
+Each divider is visible only while its section is shown. Icons placed between the first `|` and the chevron stay visible all the time.
 
 ### Settings
 
